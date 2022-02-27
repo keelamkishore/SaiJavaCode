@@ -21,7 +21,11 @@ pipeline {
     }
     stage('build docker image') {
       steps {
-        sh 'docker build -t webapp:v1 .'
+        withDockerRegistry(url: 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 071945506291.dkr.ecr.ap-south-1.amazonaws.com') {
+        }
+        sh 'docker build -t webapp_demo .'
+        docker tag webapp_demo:latest 071945506291.dkr.ecr.ap-south-1.amazonaws.com/webapp_demo:latest
+        docker push 071945506291.dkr.ecr.ap-south-1.amazonaws.com/webapp_demo:latest
       }
     }
   }
