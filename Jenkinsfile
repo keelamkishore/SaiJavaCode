@@ -45,8 +45,11 @@ pipeline {
       }
     }
     stage('Deploy to k8s') {
-      withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s', namespace: '', serverUrl: '') {
-        // some block
+      steps {
+        withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s', namespace: '', serverUrl: '') {
+          sh 'kubectl apply -f Deploy.yml'
+        }
       }
+    }
   }
 }
